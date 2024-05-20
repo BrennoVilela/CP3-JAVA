@@ -26,16 +26,19 @@ public class Eletronico extends Produto {
         this.fabricante = fabricante;
     }
 
-    @Override
     public double Desconto(String cupom) {
+        // Obter o preço original do produto
         double precoOriginal = getPreco();
-        double precoDesconto;
+        // Inicializar variável para armazenar o preço com desconto
+        double precoDesconto = precoOriginal;
 
+        // Verificar se o cupom é "NERD" e se o produto é um eletrônico
         if (cupom.equalsIgnoreCase("NERD")) {
-            precoDesconto = getPreco() * 0.20;
-            return precoDesconto;
-        } else {
-            return precoOriginal;
+            // Se sim, aplicar um desconto de 20%
+            precoDesconto = precoOriginal * 0.8; // 20% de desconto (100% - 20% = 80% do preço original)
         }
+
+        // Retornar o preço com desconto
+        return precoDesconto;
     }
 }

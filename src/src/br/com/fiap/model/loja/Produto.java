@@ -1,6 +1,6 @@
 package br.com.fiap.model.loja;
 
-public class Produto {
+public abstract class Produto {
     private String nome;
     private String descricao;
     private double preco;
@@ -17,54 +17,24 @@ public class Produto {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public String getDescricao() {
         return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
     }
 
     public double getPreco() {
         return preco;
     }
 
-    public void setPreco(double preco) {
-        this.preco = preco;
-    }
-
     public int getEstoque() {
         return estoque;
     }
 
-    public void setEstoque(int estoque) {
-        this.estoque = estoque;
-    }
-
-    public double Desconto(String cupom) {
-        double precoOriginal = getPreco();
-        double precoDesconto;
-
-        if (cupom.equalsIgnoreCase("BEMVINDO")) {
-            precoDesconto = getPreco() * 0.40;
-            return precoDesconto;
-        } else {
-            return precoOriginal;
+    public double calcularDesconto(String cupom) {
+        if (estoque > 50) {
+            return preco * 0.10; // Desconto de 10% se o estoque for maior que 50
+        } else if (estoque > 10) {
+            return preco * 0.05; // Desconto de 5% se o estoque for maior que 10
         }
-    }
-
-    public double Desconto(int estoque) {
-        double precoOriginal = getPreco();
-        double precoDesconto;
-        if (estoque >= 10) {
-            precoDesconto = getPreco() * 0.05;
-            return precoDesconto;
-        } else {
-            return precoOriginal;
-        }
+        return 0.0;
     }
 }

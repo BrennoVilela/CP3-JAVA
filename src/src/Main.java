@@ -16,7 +16,7 @@ public class Main {
         String opcaoSelecionada;
         do {
             String[] opcoes1 = {"Acessar catálogo de livros", "Acessar opções de eletrônicos", "Acessar seu carrinho", "Encerrar Aplicativo"};
-            opcaoSelecionada = Mensagem(opcoes1);
+            opcaoSelecionada = mostrarMenu(opcoes1);
 
             switch (opcaoSelecionada) {
                 case "Acessar catálogo de livros":
@@ -76,7 +76,7 @@ public class Main {
         } while (!opcaoSelecionada.equals("Encerrar Aplicativo"));
     }
 
-    static String Mensagem(String[] opcoes) {
+    static String mostrarMenu(String[] opcoes) {
         return (String) JOptionPane.showInputDialog(null,
                 "Escolha uma opção:",
                 "Selecione uma opção",
@@ -87,27 +87,23 @@ public class Main {
     }
 
     static void exibirCatalogoLivros(Livro... livros) {
-        StringBuilder catalogo = new StringBuilder();
-        for (Livro livro : livros) {
-            catalogo.append("Título: ").append(livro.getNome()).append("\n");
-            catalogo.append("Autor: ").append(livro.getAutor()).append("\n");
-            catalogo.append("Preço: ").append(livro.getPreco()).append("\n");
-            catalogo.append("Estoque: ").append(livro.getEstoque()).append("\n\n");
-        }
-        JOptionPane.showMessageDialog(null, catalogo.toString(), "Catálogo de Livros", JOptionPane.INFORMATION_MESSAGE);
-        adicionarAoCarrinho(livros);
+        exibirCatalogo(livros, "Catálogo de Livros");
     }
 
     static void exibirCatalogoEletronicos(Eletronico... eletronicos) {
+        exibirCatalogo(eletronicos, "Catálogo de Eletrônicos");
+    }
+
+    static void exibirCatalogo(Produto[] produtos, String titulo) {
         StringBuilder catalogo = new StringBuilder();
-        for (Eletronico eletronico : eletronicos) {
-            catalogo.append("Nome: ").append(eletronico.getNome()).append("\n");
-            catalogo.append("Descrição: ").append(eletronico.getDescricao()).append("\n");
-            catalogo.append("Preço: ").append(eletronico.getPreco()).append("\n");
-            catalogo.append("Estoque: ").append(eletronico.getEstoque()).append("\n\n");
+        for (Produto produto : produtos) {
+            catalogo.append("Nome: ").append(produto.getNome()).append("\n");
+            catalogo.append("Descrição: ").append(produto.getDescricao()).append("\n");
+            catalogo.append("Preço: ").append(produto.getPreco()).append("\n");
+            catalogo.append("Estoque: ").append(produto.getEstoque()).append("\n\n");
         }
-        JOptionPane.showMessageDialog(null, catalogo.toString(), "Catálogo de Eletrônicos", JOptionPane.INFORMATION_MESSAGE);
-        adicionarAoCarrinho(eletronicos);
+        JOptionPane.showMessageDialog(null, catalogo.toString(), titulo, JOptionPane.INFORMATION_MESSAGE);
+        adicionarAoCarrinho(produtos);
     }
 
     static void adicionarAoCarrinho(Produto... produtos) {
@@ -120,11 +116,13 @@ public class Main {
                 opcoes,
                 opcoes[0]);
 
-        for (Produto produto : produtos) {
-            if (produto.getNome().equals(opcaoSelecionada)) {
-                carrinho.adicionarItem(produto);
-                JOptionPane.showMessageDialog(null, produto.getNome() + " foi adicionado ao carrinho.");
-                break;
+        if (opcaoSelecionada != null) {
+            for (Produto produto : produtos) {
+                if (produto.getNome().equals(opcaoSelecionada)) {
+                    carrinho.adicionarItem(produto);
+                    JOptionPane.showMessageDialog(null, produto.getNome() + " foi adicionado ao carrinho.");
+                    break;
+                }
             }
         }
     }
@@ -136,9 +134,9 @@ public class Main {
                     .append(item.getQuantidade()).append(" unidade(s) - ")
                     .append("Preço total: ").append(item.getPrecoTotal()).append("\n");
         }
+
         carrinhoTexto.append("\n");
 
-        // Adicionar opção de aplicar cupom
         String cupom = JOptionPane.showInputDialog("Digite o código do cupom de desconto:");
         if (cupom != null && !cupom.isEmpty()) {
             carrinho.aplicarCupom(cupom);
@@ -148,7 +146,6 @@ public class Main {
 
         carrinhoTexto.append("Preço final: ").append(carrinho.getPrecoFinal()).append("\n");
 
-        // Adicionar opção de remover item
         String[] itensCarrinho = carrinho.getItens().stream().map(item -> item.getProduto().getNome()).toArray(String[]::new);
         if (itensCarrinho.length > 0) {
             String itemParaRemover = (String) JOptionPane.showInputDialog(null,
@@ -168,3 +165,5 @@ public class Main {
         JOptionPane.showMessageDialog(null, carrinhoTexto.toString(), "Seu Carrinho", JOptionPane.INFORMATION_MESSAGE);
     }
 }
+
+
