@@ -46,6 +46,13 @@ public class Carrinho {
         return precoTotal;
     }
 
+    public void aplicarCupom(int estoque) {
+        for (Item item : itens) {
+            double desconto = item.getProduto().calcularDesconto(estoque);
+            descontoTotal += desconto;
+        }
+    }
+
     public void aplicarCupom(String cupom) {
         for (Item item : itens) {
             double desconto = item.getProduto().calcularDesconto(cupom);

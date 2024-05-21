@@ -27,7 +27,7 @@ public class Livro extends Produto {
         this.editora = editora;
     }
 
-    public double Desconto() {
+    public double desconto() {
         double precoOriginal = getPreco();
         double precoDesconto;
         if (getEstoque() >= 50) {

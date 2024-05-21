@@ -26,7 +26,7 @@ public class Eletronico extends Produto {
         this.fabricante = fabricante;
     }
 
-    public double Desconto(String cupom) {
+    public double desconto(String cupom) {
         // Obter o preço original do produto
         double precoOriginal = getPreco();
         // Inicializar variável para armazenar o preço com desconto
